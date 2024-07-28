@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Books Page
+{% endblock %}
+
+{% block content %}
+    <h1>Books List</h1>
+    {% if page_obj %}
+        <ul>
+            {% for book in page_obj.object_list %}
+                <li>
+                    <img src="{{ book.cover_picture.url }}" alt="img" class="profile-img">
+
+                    <a href="{% url 'books:detail' book.id %}">{{ book.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if page_obj.has_previous %}
+            <a href="{% url 'books:list' %}?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        {{ page_obj.number }}
+        {% if page_obj.has_next %}
+            <a href="{% url 'books:list' %}?page={{ page_obj.next_page_number }}">next</a>
+        {% endif %}
+    {% else %}
+        No books found.
+    {% endif %}
+{% endblock %}
